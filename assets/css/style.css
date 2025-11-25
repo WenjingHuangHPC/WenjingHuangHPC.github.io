@@ -330,44 +330,106 @@ body {
 }
 
 /* Navigation */
+/* ---------- Top navigation bar ---------- */
 
+/* 外层：负责渐变背景 + sticky 效果 */
 .nav {
   position: sticky;
   top: 0;
-  z-index: 20;
-  border-top: 1px solid rgba(148, 163, 184, 0.4);
-  border-bottom: 1px solid rgba(148, 163, 184, 0.35);
-  background-color: rgba(15, 23, 42, 0.85);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  z-index: 30;
+  padding: 0.45rem 0 0.35rem;
+  /* background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.9),
+    rgba(255, 255, 255, 0)
+  );
+  backdrop-filter: blur(12px); */
+  -webkit-backdrop-filter: blur(12px);
+  transition: background-color 0.25s ease, box-shadow 0.25s ease;
 }
 
-
+/* 内层：一开始是悬浮胶囊，展开后变成整条导航 */
 .nav-inner {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0.45rem 1.3rem;
+  border-radius: 999px;
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.15);
+
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  padding: 0.75rem 1.25rem;
+  align-items: center;
+  justify-content: center;
+  gap: 1.6rem;
+
+  transition:
+    border-radius 0.25s ease,
+    max-width 0.25s ease,
+    box-shadow 0.25s ease,
+    padding 0.25s ease;
 }
 
+/* 链接样式 */
 .nav a {
-  color: #d5e1ff;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.22rem 0.1rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #111827;
   text-decoration: none;
-  font-size: 0.9rem;
-  padding: 0.25rem 0.7rem;
+  letter-spacing: 0.01em;
+  transition:
+    color 0.15s ease,
+    transform 0.12s ease;
+}
+
+/* 底部小条作为 hover / active indicator */
+.nav a::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -0.18rem;
+  width: 0;
+  height: 2px;
   border-radius: 999px;
-  transition: background-color 0.15s ease, color 0.15s ease;
+  background-color: var(--accent);
+  transform: translateX(-50%);
+  transition: width 0.18s ease;
 }
 
 .nav a:hover {
-  background-color: #ffffff;
-  color: #0b1020;
+  color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.nav a:hover::after {
+  width: 80%;
 }
 
 .nav a.active {
-  background-color: #ffffff;
-  color: #0b1020;
-  font-weight: 600;
+  color: var(--accent);
+}
+
+.nav a.active::after {
+  width: 80%;
+}
+
+/* ---------- 滚动后“展开”为正常顶部栏 ---------- */
+
+/* JS 会在向下滚动时给 .nav 加这个类 */
+.nav.nav-scrolled {
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 1px 0 rgba(148, 163, 184, 0.6);
+}
+
+.nav.nav-scrolled .nav-inner {
+  max-width: 100%;
+  border-radius: 0;
+  box-shadow: none;
+  padding-inline: 0.75rem;
 }
 
 /* Main content */
@@ -396,6 +458,44 @@ body.dark-mode .section {
   background-color: #0b1120;
   border-color: rgba(148, 163, 184, 0.4);
 }
+
+/* ---------- Nav in dark mode ---------- */
+body.dark-mode .nav {
+  background: linear-gradient(
+    to bottom,
+    rgba(15, 23, 42, 0.0),
+    rgba(15, 23, 42, 0)
+  );
+}
+
+body.dark-mode .nav-inner {
+  background-color: rgba(15, 23, 42, 0.96);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+}
+
+body.dark-mode .nav.nav-scrolled {
+  background: rgba(15, 23, 42, 0.98);
+  box-shadow: 0 1px 0 rgba(30, 64, 175, 0.7);
+}
+
+body.dark-mode .nav.nav-scrolled .nav-inner {
+  box-shadow: none;
+}
+
+body.dark-mode .nav a {
+  color: #e5e7eb;
+}
+
+body.dark-mode .nav a:hover,
+body.dark-mode .nav a.active {
+  color: #bfdbfe;
+}
+
+body.dark-mode .nav a::after {
+  background-color: #60a5fa;
+}
+
+
 
 /* ---- Improve link readability in dark mode ---- */
 body.dark-mode a {

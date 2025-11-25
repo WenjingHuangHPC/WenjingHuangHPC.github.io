@@ -66,15 +66,16 @@
     </a>
 
     <nav class="nav">
-        <div class="container nav-inner">
+    <div class="container nav-inner">
         <a href="#about">About</a>
         <a href="#news">News</a>
         <a href="#research">Research</a>
         <a href="#publications">Publications</a>
         <a href="#honors">Honors</a>
         <a href="#education">Education</a>
+        <a href="#cv">CV</a>
         <a href="#contact">Contact</a>
-        </div>
+    </div>
     </nav>
     </header>
 
@@ -271,6 +272,7 @@
     const body = document.body;
     const themeToggle = document.getElementById('theme-toggle');
     const storedTheme = localStorage.getItem('theme');
+    const navBar = document.querySelector('.nav');
 
     if (storedTheme === 'dark') {
       body.classList.add('dark-mode');
@@ -312,6 +314,17 @@
       } else {
         backToTop.classList.remove('visible');
       }
+
+          // Nav 胶囊收缩 / 展开效果
+        if (navBar) {
+            if (window.scrollY > 40) {
+            navBar.classList.add('nav-scrolled');
+            } else {
+            navBar.classList.remove('nav-scrolled');
+            }
+        }
+
+
     }
 
     window.addEventListener('scroll', onScroll);
